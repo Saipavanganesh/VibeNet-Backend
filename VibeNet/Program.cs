@@ -61,6 +61,28 @@ app.MapGet("/env-check", (IConfiguration config) =>
     });
 });
 
+app.MapGet("/test-sql", async (IConfiguration config) =>
+{
+    try
+    {
+        var cs = config["ConnectionStrings:SqlDatabase"];
+        if (string.IsNullOrEmpty(cs))
+            return Results.Problem("SQL connection string is empty.", statusCode: 500);
+
+        using var conn = new Microsoft.Data.SqlClient.SqlConnection(cs);
+        await conn.OpenAsync();                      // will throw if blocked/invalid
+        using var cmd = new Microsoft.Data.SqlClient.SqlCommand("SELECT 1", conn);
+        var val = await cmd.ExecuteScalarAsync();
+        await conn.CloseAsync();
+
+        return Results.Ok(new { ok = true, ping = val });
+    }
+    catch (Exception ex)
+    {
+        // Return exception message (safe for debugging). Remove this in production.
+        return Results.Problem(detail: ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : ""), statusCode: 500);
+    }
+});
 
 app.MapControllers();
 
