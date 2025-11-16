@@ -48,6 +48,20 @@ app.UseMiddleware<DeletedUserMiddleware>();
 
 app.UseAuthorization();
 
+app.MapGet("/env-check", (IConfiguration config) =>
+{
+    return Results.Json(new
+    {
+        sql = config["ConnectionStrings:SqlDatabase"],
+        cosmos = config["ConnectionStrings:CosmosDb"],
+        blob = config["ConnectionStrings:BlobStorage"],
+        baseUrl = config["AzureStorage:BaseUrl"],
+        images = config["AzureStorage:ImagesContainer"],
+        jwt = config["Jwt:SecretKey"]
+    });
+});
+
+
 app.MapControllers();
 
 app.Run();
