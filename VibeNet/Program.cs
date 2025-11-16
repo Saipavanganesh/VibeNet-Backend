@@ -83,6 +83,48 @@ app.MapGet("/test-sql", async (IConfiguration config) =>
         return Results.Problem(detail: ex.Message + (ex.InnerException != null ? " | " + ex.InnerException.Message : ""), statusCode: 500);
     }
 });
+app.MapGet("/test-cosmos", async (IConfiguration config) =>
+{
+    try
+    {
+        var conn = config["ConnectionStrings:CosmosDb"];
+        if (string.IsNullOrEmpty(conn))
+            return Results.Problem("Cosmos connection string missing", statusCode: 500);
+
+        var client = new Microsoft.Azure.Cosmos.CosmosClient(conn);
+
+        // Test DB
+        var db = client.GetDatabase("vibenetdb");
+        var dbResponse = await db.ReadAsync();
+
+        // Test container
+        var container = client.GetContainer("vibenetdb", "connections");
+        await container.ReadContainerAsync();
+
+        return Results.Ok(new { ok = true, db = dbResponse.Resource.Id });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message, statusCode: 500);
+    }
+});
+app.MapGet("/test-blob", async (IConfiguration config) =>
+{
+    try
+    {
+        var conn = config["ConnectionStrings:BlobStorage"];
+        var containerName = config["AzureStorage:ImagesContainer"];
+
+        var c = new Azure.Storage.Blobs.BlobContainerClient(conn, containerName);
+        var info = await c.ExistsAsync();
+
+        return Results.Ok(new { ok = true, exists = info.Value });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message, statusCode: 500);
+    }
+});
 
 app.MapControllers();
 
