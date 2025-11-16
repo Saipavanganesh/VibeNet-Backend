@@ -125,6 +125,19 @@ namespace VibeNet.Controllers
             var response = await _users.UpdateInterestsAsync(userId, req.InterestIds);
             return Ok(response);
         }
+        [HttpGet("debug-config")]
+        public IActionResult DebugConfig([FromServices] IConfiguration config)
+        {
+            return Ok(new
+            {
+                sql = config["ConnectionStrings:SqlDatabase"] != null,
+                cosmos = config["ConnectionStrings:CosmosDb"] != null,
+                blob = config["ConnectionStrings:BlobStorage"] != null,
+                storageBaseUrl = config["AzureStorage:BaseUrl"] != null,
+                imagesContainer = config["AzureStorage:ImagesContainer"] != null,
+                jwtSecret = config["Jwt:SecretKey"] != null
+            });
+        }
 
     }
 }
