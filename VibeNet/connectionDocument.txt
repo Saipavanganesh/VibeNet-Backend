@@ -1,0 +1,23 @@
+﻿{
+  "id": "user_001",
+  "username": "Ganesh",
+  "email": "ganesh@example.com",
+  "profileImageUrl": "https://ganeshblobstorage.blob.core.windows.net/images/user_001.png",
+  "connections": [
+    {
+      "userId": "user_002",
+      "username": "Sita",
+      "profileImageUrl": "https://ganeshblobstorage.blob.core.windows.net/images/user_002.png",
+      "connectionStartedDate": "2025-11-08T14:00:00Z",
+      "status": "accepted"
+    },
+    {
+      "userId": "user_003",
+      "username": "Arjun",
+      "profileImageUrl": null,
+      "connectionStartedDate": "2025-11-05T08:30:00Z",
+      "status": "pending"
+    }
+  ],
+  "lastUpdated": "2025-11-08T14:00:00Z"
+}

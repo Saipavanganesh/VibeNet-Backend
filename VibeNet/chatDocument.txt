@@ -1,0 +1,38 @@
+﻿{
+  "chatId": "chat_123",
+  "participants": [
+    {
+      "userId": "user_001",
+      "username": "Ganesh",
+      "profileImageUrl": "https://ganeshblobstorage.blob.core.windows.net/images/user_001.png"
+    },
+    {
+      "userId": "user_002",
+      "username": "Sita",
+      "profileImageUrl": "https://ganeshblobstorage.blob.core.windows.net/images/user_002.png"
+    }
+  ],
+  "messages": [
+    {
+      "messageId": "msg_001",
+      "senderId": "user_001",
+      "text": "Hey, how are you?",
+      "timestamp": "2025-11-08T10:15:30Z",
+      "attachments": []
+    },
+    {
+      "messageId": "msg_002",
+      "senderId": "user_002",
+      "text": "All good! You?",
+      "timestamp": "2025-11-08T10:16:00Z",
+      "attachments": [
+        {
+          "url": "https://ganeshblobstorage.blob.core.windows.net/images/meme_001.jpg",
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2025-11-08T10:15:00Z",
+  "lastUpdated": "2025-11-08T10:16:00Z"
+}
